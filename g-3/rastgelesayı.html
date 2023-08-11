@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sayıları Sırala ve Rastgele Seç</title>
+    <style>
+        .container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        #numbers {
+            font-size: 18px;
+            margin-top: 10px;
+            white-space: nowrap;
+        }
+
+        .number-span {
+            padding: 5px;
+            display: inline-block;
+        }
+
+        .selected {
+            font-weight: bold;
+            color: red;
+        }
+
+        #sortButton {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+
+        #randomButton {
+            margin-top: 10px;
+            padding: 5px 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="sortText">
+            1'den 99'a kadar olan sayıları for döngüsü ile yan yana sırala
+            <button id="sortButton" onclick="sortNumbers()">Sırala</button>
+        </div>
+        <div id="numbers"></div>
+        <button id="randomButton" onclick="selectRandom()">Rastgele Sayı Seç</button>
+    </div>
+
+    <script>
+        let selectedNumbers = [];
+
+        function sortNumbers() {
+            document.getElementById("numbers").innerHTML = "";
+
+            for (let i = 1; i <= 99; i++) {
+                document.getElementById("numbers").innerHTML += `<span class="number-span">${i}</span> `;
+                if (i % 10 === 0) {
+                    document.getElementById("numbers").innerHTML += "<br>";
+                }
+            }
+
+            document.getElementById("randomButton").disabled = false;
+            document.getElementById("numbers").style.textAlign = "left";
+        }
+
+        function selectRandom() {
+            const randomNumber = Math.floor(Math.random() * 99) + 1;
+            selectedNumbers.push(randomNumber);
+            updateSelectedNumbersDisplay();
+        }
+
+        function updateSelectedNumbersDisplay() {
+            const numberSpans = document.querySelectorAll(".number-span");
+            
+            for (const numberSpan of numberSpans) {
+                numberSpan.classList.remove("selected");
+            }
+
+            for (const selectedNumber of selectedNumbers) {
+                const selectedSpan = document.querySelector(`.number-span:nth-child(${selectedNumber + 1})`);
+                selectedSpan.classList.add("selected");
+            }
+        }
+    </script>
+</body>
+</html>
